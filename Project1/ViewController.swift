@@ -19,8 +19,9 @@ class ViewController: UITableViewController {
         let fm = FileManager.default
         let path = Bundle.main.resourcePath!
         let items = try! fm.contentsOfDirectory(atPath: path)
+        let sortedItems = items.sorted()
         
-        for item in items {
+        for item in sortedItems {
             if item.hasPrefix("nssl") {
                 // this is a picture to load
                 pictures.append(item)
@@ -43,6 +44,7 @@ class ViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "Detail") as? DetailViewController {
             vc.selectedImage = pictures[indexPath.row]
+            vc.viewTitle = "Picture \(indexPath.row + 1) of \(pictures.count)"
             navigationController?.pushViewController(vc, animated: true)
         }
     }
